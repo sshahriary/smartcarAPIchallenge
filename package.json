@@ -1,0 +1,21 @@
+{
+  "name": "smartcarapi",
+  "version": "1.0.0",
+  "description": "middle tier api to utilize Generic Motors API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "app.js",
+    "test": "node ./node_modules/mocha/bin/mocha"
+  },
+  "author": "Sam Shahriary",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
+    "request": "^2.88.0"
+  }
+}
