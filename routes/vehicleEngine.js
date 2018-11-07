@@ -6,7 +6,7 @@
 ** @param {object} app - express application
 ** @param {object} APIrequest - module used to send http requests
 */
-module.exports = function postVehicleEngine(req, res, app, APIrequest){
+module.exports = function postVehicleEngine(req, res, app, APIrequest, next){
   var command = req.body.action;                                            //get command from request body
 
   /* perform initial check before sending to GM API */

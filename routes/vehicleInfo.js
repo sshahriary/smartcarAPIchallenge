@@ -6,7 +6,7 @@
 ** @param {object} app - express application
 ** @param {object} APIrequest - module used to send http requests
 */
-module.exports = function getVehicleInfo(req, res, app, APIrequest){
+module.exports = function getVehicleInfo(req, res, app, APIrequest, next){
   HttpObject = app.get('GMHttpObject');                                         //get generic http GM request object
 
   /* perform customizations */
