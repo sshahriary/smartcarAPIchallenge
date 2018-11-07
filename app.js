@@ -85,5 +85,15 @@ router.get('/battery', function(req, res, next){
 app.use(function(req, res){
        res.sendStatus(404);
    });
+/* error handler: handles specific errors with custom response object */
+app.use(function (error, req, res, next) {
+  if (error instanceof SyntaxError) {
+    error.status = 400;
+    error.message = 'Invalid JSON';
+    sendError(res, error);
+  } else {
+    sendError(res, error);
+  }
+});
 
 module.exports = app;
