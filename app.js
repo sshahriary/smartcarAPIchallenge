@@ -3,10 +3,13 @@ var express = require('express');
 const APIrequest = require('request');              //request module used to request data from GM API
 const bodyParser = require('body-parser');          //used to parse POST requests
 /* node modules */
+  /* routes */
 const vehicleInfoRouter = require('./routes/vehicleInfo');
 const securityInfoRouter = require('./routes/vehicleSecurity');
 const energyInfoRouter = require('./routes/vehicleEnergy');
 const engineActionRouter = require('./routes/vehicleEngine');
+  /* responses */
+const sendError = require('./responses/sendError');
 
 /* set up application */
 var app = express();                                          //application is instance of express framework
