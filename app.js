@@ -43,8 +43,6 @@ var createRequest = function(req, res, next){
       app.set('GMHttpObject', HttpObject);
       next();
   }
-
-
 }
 
 /* perform callback on path request */
@@ -54,29 +52,30 @@ app.use('/vehicles/:id', router);
 
 /* router handling */
 
-/* assign router for POST request engine path */
-router.post('/engine', function(req, res){
-  engineActionRouter(req, res, app, APIrequest);
+  /* assign router for POST request engine path */
+router.post('/engine', function(req, res, next){
+  engineActionRouter(req, res, app, APIrequest, next);
 });
 
-/* assign router for GET request vehicle info path */
-router.get('/', function(req, res){
-  vehicleInfoRouter(req, res, app, APIrequest);
+  /* assign router for GET request vehicle info path */
+router.get('/', function(req, res, next){
+  vehicleInfoRouter(req, res, app, APIrequest, next);
 });
 
-/* assign router for GET request security path */
-router.get('/doors', function(req, res){
-  securityInfoRouter(req, res, app, APIrequest);
+  /* assign router for GET request security path */
+router.get('/doors', function(req, res, next){
+  securityInfoRouter(req, res, app, APIrequest, next);
 });
 
-/* assign router for GET request fuel path */
-router.get('/fuel', function(req, res){
-  energyInfoRouter(req, res, app, APIrequest);
+  /* assign router for GET request fuel path */
+router.get('/fuel', function(req, res, next){
+  energyInfoRouter(req, res, app, APIrequest, next);
+  console.log('get energy!: ' + typeof(next));
 });
 
-/* assign router for GET request battery path */
-router.get('/battery', function(req, res){
-  energyInfoRouter(req, res, app, APIrequest);
+  /* assign router for GET request battery path */
+router.get('/battery', function(req, res, next){
+  energyInfoRouter(req, res, app, APIrequest, next);
 });
 
 
