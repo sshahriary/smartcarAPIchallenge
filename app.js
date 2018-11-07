@@ -81,10 +81,13 @@ router.get('/battery', function(req, res, next){
   energyInfoRouter(req, res, app, APIrequest, next);
 });
 
+  /* invalid path error to error handler */
+app.use(function(req, res, next){
+  var error = new Error('Page not found');
+  error.status = 404;
+  next(error);
+});
 
-app.use(function(req, res){
-       res.sendStatus(404);
-   });
 /* error handler: handles specific errors with custom response object */
 app.use(function (error, req, res, next) {
   if (error instanceof SyntaxError) {
