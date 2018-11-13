@@ -32,7 +32,9 @@ var createRequest = function(req, res, next){
 
   /* handle ID length exceeding a limit */
   if(vehicleId.length > process.env.IDLimit){
-    res.status(400).send({'status':400, 'reason':'Vehicle ID exceeds limit'});
+    var error = new Error('Vehicle Id exceeds character limit');
+    error.status = 400;
+    next(error);
   } else {
     /* generic http request configs definition */
       var HttpObject = {
@@ -73,7 +75,6 @@ router.get('/doors', function(req, res, next){
   /* assign router for GET request fuel path */
 router.get('/fuel', function(req, res, next){
   energyInfoRouter(req, res, app, APIrequest, next);
-  console.log('get energy!: ' + typeof(next));
 });
 
   /* assign router for GET request battery path */

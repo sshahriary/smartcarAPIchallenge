@@ -11,8 +11,10 @@ module.exports = function postVehicleEngine(req, res, app, APIrequest, next){
 
   /* perform initial check before sending to GM API */
   if(command != "START" && command != "STOP"){
-    /* send custom error object if invalid - body mimics GM */
-    res.status(400).send({'status':400, 'reason':'Uknown command: '+command});
+    /* send custom error object if invalid */
+    var error = new Error('Uknown command: ' + command);
+    error.status = 400;
+    next(error);
   } else {
     var HttpObject = app.get('GMHttpObject');                                 //retrieve generic Http Object
 
@@ -25,7 +27,9 @@ module.exports = function postVehicleEngine(req, res, app, APIrequest, next){
     APIrequest(HttpObject, function(err, APIResponse, body){
       /* print and respond with GM API error if GM API Request fails */
       if(err || body.status == '400'){
-        res.status(400).send(body);
+        var error = new Error('GM API Error - ' + body.reason);
+        error.status = 400;
+        next(error);
       }
       /* create custom response object */
       else {

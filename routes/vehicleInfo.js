@@ -17,10 +17,9 @@ module.exports = function getVehicleInfo(req, res, app, APIrequest, next){
 
     /* print and respond with GM API error if GM API Request fails */
     if(err || body.status != '200'){
-      res.status(400).send(body);
-    }
-    else if(body == 'Bad Request'){
-      res.status(400).send('Bad Request');
+      var error = new Error('GM API Error - ' + body.reason);
+      error.status = 400;
+      next(error);
     }
     /* create custom response object */
     else {

@@ -17,7 +17,9 @@ module.exports = function getVehicleSecurity(req, res, app, APIrequest, next){
 
     /* print and respond with GM API error if GM API Request fails */
     if(err || body.status != '200'){
-      res.status(400).send(body);
+      var error = new Error('GM API Error - ' + body.reason);
+      error.status = 400;
+      next(error);
     }
     /* create custom response object */
     else {

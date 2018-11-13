@@ -6,7 +6,7 @@
 ** @param {object} app - express application
 ** @param {object} APIrequest - module used to send http requests
 */
-module.exports = function getEnergyInfo(req, res, app, APIrequest){
+module.exports = function getEnergyInfo(req, res, app, APIrequest, next){
   HttpObject = app.get('GMHttpObject');                                         //get generic http GM request object
 
   /* perform customizations */
@@ -17,38 +17,37 @@ module.exports = function getEnergyInfo(req, res, app, APIrequest){
 
     /* print and respond with GM API error if GM API Request fails */
     if(err || body.status != '200'){
-      res.status(400).send(body);
+      var error = new Error('GM API Error - ' + body.reason);
+      error.status = 400;
+      next(error);
     }
     /* create custom response object */
     else {
-
       /* initialize response object */
-      var responseObject = {'percent':null};
+      var percentage = null;
+      var responseObject = {'percent': null};
 
-      /* assign energy percentage based on energy type returns null means energy type not supported */
-      if(req.url == '/fuel'){
-        var percentage = body.data.tankLevel.value;
-        is_null(percentage, responseObject);
-      } else if (req.url == '/battery'){
-        var percentage = body.data.batteryLevel.value;
-        is_null(percentage, responseObject);
+      /* assign energy percentage based on energy type; returns error on null means energy type not supported */
+      switch(req.url){
+        case '/fuel':
+          percentage = body.data.tankLevel.value;
+          break;
+        case '/battery':
+          percentage = body.data.batteryLevel.value;
+          break;
+        default:
+          percentage = null;                                                    //default to null, should be reach invalid path before this
       }
-
-      /* send response */
-      res.status(200).send(responseObject);
+      /* null means invalid energy type - send error */
+      if(percentage === 'null'){
+        var error = new Error('Invalid vehicle type for requested energy type');
+        error.status = 422;
+        next(error);
+      } else {
+        /* valid energy/vehicle type match - send response */
+        responseObject.percent = Number(percentage);
+        res.status(200).send(responseObject);
+      }
     }
   });
-}
-
-/*
-** Helper function - looks at percentage provided. if null, assign null. otherwise, assign percentage
-** @param {number} energyVal - fuel/battery percentage
-** @param {object} responseObj - smartCar response object
-*/
-function is_null(energyVal, responseObj){
-  if(energyVal == null){
-    responseObj.percent = null;
-  } else {
-    responseObj.percent = Number(energyVal);
-  }
 }
