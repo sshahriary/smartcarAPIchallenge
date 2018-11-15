@@ -1,5 +1,5 @@
 # smartcarAPIchallenge
-middle tier API used for access to GM API
+middle tier API used for access to GM API (provides cleaner/user friendly JSON response of GM data)
 
 ## Technologies Used
 * Node.js with express framework and Mocha/Chai as testing framework
