@@ -20,4 +20,6 @@ middle tier API used for access to GM API (provides cleaner/user friendly JSON r
 
 ## Challenges
 * Learning express, Mocha/Chai framework (fairly new to it), and figuring out how to design the project space. 
+* Current testing methods only check elements of response JSON (such as: check status and reason elements exist for error objects returned). Still need to figure out how to perform Mock/Unit testing because GM API sends constantly changing/unpredictable responses for certain API routes which can't be thoroughly tested against.
 * very fun challenge to work on!
+
